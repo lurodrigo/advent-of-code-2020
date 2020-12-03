@@ -4,7 +4,7 @@ defmodule Day2 do
     [:erlang.binary_to_integer(num_1), :erlang.binary_to_integer(num_2), letter, pwd]
   end
 
-  def read do
+  def read_input do
     File.read!("input/day_02.txt")
     |> String.split("\n")
     |> Enum.map(&parse_line/1)
@@ -21,7 +21,7 @@ defmodule Day2 do
   end
 
   def part_1 do
-    read()
+    read_input()
     |> Enum.filter(&valid_1/1)
     |> length()
   end
@@ -34,7 +34,7 @@ defmodule Day2 do
   end
 
   def part_2 do
-    read()
+    read_input()
     |> Enum.filter(&valid_2/1)
     |> length()
   end

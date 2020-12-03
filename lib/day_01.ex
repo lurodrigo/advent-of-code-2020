@@ -37,19 +37,19 @@ defmodule Day1 do
     |> Enum.at(0)
   end
 
-  def read do
+  def read_input do
     File.read!("input/day_01.txt")
     |> String.split("\n")
     |> Enum.map(&:erlang.binary_to_integer/1)
   end
 
   def part_1 do
-    read()
+    read_input()
     |> find_sum_2(2020)
   end
 
   def part_2 do
-    read()
+    read_input()
     |> find_sum_3()
   end
 end
