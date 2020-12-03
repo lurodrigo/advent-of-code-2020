@@ -5,7 +5,7 @@ defmodule Day2 do
   end
 
   def read do
-    File.read!("input.txt")
+    File.read!("input/day_02.txt")
     |> String.split("\n")
     |> Enum.map(&parse_line/1)
   end

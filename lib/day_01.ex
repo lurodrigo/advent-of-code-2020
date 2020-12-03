@@ -38,7 +38,7 @@ defmodule Day1 do
   end
 
   def read do
-    File.read!("input.txt")
+    File.read!("input/day_01.txt")
     |> String.split("\n")
     |> Enum.map(&:erlang.binary_to_integer/1)
   end
