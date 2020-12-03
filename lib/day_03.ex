@@ -21,10 +21,10 @@ defmodule Day3 do
   end
 
   def part_2() do
-    map = read_input()
+    grid = read_input()
 
     [{1, 1}, {3, 1}, {5, 1}, {7, 1}, {1, 2}]
-    |> Enum.map(fn {right, down} -> count_trees(map, right, down) end)
+    |> Enum.map(fn {right, down} -> count_trees(grid, right, down) end)
     |> Enum.reduce(&*/2)
   end
 end
