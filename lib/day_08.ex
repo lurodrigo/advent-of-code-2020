@@ -12,28 +12,31 @@ defmodule Day8 do
   end
 
   def interpret(input, acc, pos) do
-    {instruction, number, executed} = :array.get(pos, input)
+    if pos == :array.size(input) do
+      {acc, true}
+    else
+      case :array.get(pos, input) do
+        {instruction, number, executed} ->
+          if executed do
+            {acc, false}
+          else
+            updated = :array.set(pos, {instruction, number, true}, input)
 
-    cond do
-      executed ->
-        {acc, false}
+            case instruction do
+              "acc" ->
+                interpret(updated, acc + number, pos + 1)
 
-      pos == :array.size(input) ->
-        {acc, true}
+              "nop" ->
+                interpret(updated, acc, pos + 1)
 
-      true ->
-        updated = :array.set(pos, {instruction, number, true}, input)
+              "jmp" ->
+                interpret(updated, acc, pos + number)
+            end
+          end
 
-        case instruction do
-          "acc" ->
-            interpret(updated, acc + number, pos + 1)
-
-          "nop" ->
-            interpret(updated, acc, pos + 1)
-
-          "jmp" ->
-            interpret(updated, acc, pos + number)
-        end
+        _ ->
+          {nil, false}
+      end
     end
   end
 
@@ -42,6 +45,39 @@ defmodule Day8 do
     |> interpret(0, 0)
   end
 
+  def look_for_stop(input, pos) do
+    if pos == :array.size(input) do
+      -1
+    else
+      case :array.get(pos, input) do
+        {"nop", number, _} ->
+          IO.puts("changing pos #{pos}\n")
+
+          case :array.set(pos, {"jmp", number, false}, input)
+               |> interpret(0, 0)
+               |> IO.inspect() do
+            {_, false} -> look_for_stop(input, pos + 1)
+            {acc, true} -> acc
+          end
+
+        {"jmp", number, _} ->
+          IO.puts("changing pos #{pos}\n")
+
+          case :array.set(pos, {"nop", number, false}, input)
+               |> interpret(0, 0)
+               |> IO.inspect() do
+            {_, false} -> look_for_stop(input, pos + 1)
+            {acc, true} -> acc
+          end
+
+        _ ->
+          look_for_stop(input, pos + 1)
+      end
+    end
+  end
+
   def part_2 do
+    read_input()
+    |> look_for_stop(0)
   end
 end
